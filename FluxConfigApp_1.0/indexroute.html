@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html ng-app="fluxConfigApp">
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <base href="/fluxConfig">
+ <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<!-- Bootstrap -->
+<!-- <link href="app/css/bootstrapunited.min.css" rel="stylesheet"> -->
+<link href="app/css/bootstrapslate.css" rel="stylesheet">
+<link href="app/css/csscustom.css" rel="stylesheet">
+<script src="app/js/angular.js"></script>
+<script src="app/js/angular-route.js"></script>
+</head>
+
+<body >
+<ul class="nav nav-tabs" ng-controller="tabsCtrl">
+      <li ng-class="tabClass(tab)" ng-repeat="tab in tabs" tab="tab"><a href="{{tab.link}}" ng-click="setSelectedTab(tab)">{{tab.label}}</a></li>
+</ul>
+
+<div ng-view></div>
+
+
+<script src="app/fluxconfigapp.js"></script>
+<script src="app/tabsctrl.js"></script>
+<script src="app/fluxconfigctrl.js"></script>
+<script src="app/locationsCtrl.js"></script>
+<script src="app/itemsCtrl.js"></script>
+<script src="app/dirs/datafactory.js"></script>
+<script src="app/dirs/modalfactory.js"></script>
+<script src="app/dirs/modalctrl.js"></script>
+<script src="app/dirs/treefactory.js"></script>
+<script src="app/dirs/treeviewdir.js"></script>
+
+ <!-- Angular UI Boostrap directives - modal, alert -->
+<script src="app/js/ui-bootstrap-custom-tpls-0.12.1.min.js"></script>
+ <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+ <!-- Include all compiled plugins (below), or include individual files as needed -->
+ <script src="app/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<div ng-controller="homeCtrl">
+<div class="page-header">
+    <h3 align="center" class="text-warning">Flux Configuration Utility</h3>
+</div>
+<div class="container">
+<div class="row">
+<h3 class="text-success">Configuration Database Collection List:</h3>
+<div class="col-sm-6">
+<ul class="list-group">
+<li class="list-group-item text-large text-info" ng-repeat="collection in collectionList track by $index" >
+<div class="radio-large">
+ <label>
+<input type="radio" name="selectradio"  ng-model="selectedcoll" ng-value="collection" ng-change="setSelected(collection)">	
+{{collection}}	
+</label>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-3">
+	<label for="newcoll" class="control-label">New Collection Name:</label>
+	<input class="form-control" name="newcoll" type="text" style="border-color: #62c462; border-style: double; border-width: thick;" ng-model="newcoll">
+</div >
+<div class="col-sm-1">
+	<button class="btn btn-sm btn-success" style="margin-top:24px; border-color: #272b30;" ng-click="addColl(newcoll)" >Add Collection</button>
+</div>
+</div>
+</div>
+</div>

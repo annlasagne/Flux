@@ -1,0 +1,36 @@
+<div class="container">
+<h4>Attribute List:</h4>
+		
+	<div class="row form-group">
+	<div ng-repeat="attr in datasource">
+	<div class="col-sm-2">
+		<label for="attrname" class="control-label" >Name</label>
+		<input name="attrname" class="form-control" width="10%" type="text" ng-model="attr.name" ng-readonly="readdetail" >
+	</div>
+	<div  class="col-sm-1" >
+		<label for="attrstate" class="control-label" >&nbsp;&nbsp;&nbsp;Set?</label>
+		<input name="attrstate" class="form-control" type="checkbox" ng-model="attr.state" ng-readonly="readdetail" >
+	</div>
+	<div class="col-sm-1">
+	<button class="btn btn-default" style="margin-top:22px;" ng-click="remove(attr)" ng-disabled="readdetail">Del</button>
+	</div>
+	</div>
+	</div>
+	
+	<div class="row form-group">
+	<div class="col-sm-2">
+		<label for="newname" class="control-label" >Name</label>
+		<input name="newname"  style="border-color: #62c462; border-style: double; border-width: thick;" 
+			class="form-control" width="10%" type="text" ng-model="newname" ng-readonly="readdetail" >
+	</div>
+	<div  class="col-sm-1" >
+		<label for="newstate" class="control-label" >&nbsp;&nbsp;&nbsp;Set?</label>
+		<input name="newstate" class="form-control"  type="checkbox" ng-model="newstate" ng-readonly="readdetail" >
+	</div>
+	<div class="col-sm-1">
+	<button class="btn btn-sm btn-success" style="margin-top:24px; border-color: #272b30;" ng-click="addAttr(newname, newstate)" ng-disabled="readdetail">Add Attribute</button>
+	</div>
+</div>	
+</div>
+
+

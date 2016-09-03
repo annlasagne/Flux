@@ -1,0 +1,200 @@
+<div ng-controller="fluxConfigCtrl">
+<div class="page-header">
+    <h3 align="center" class="text-warning">Flux Configuration Utility</h3>
+</div>
+<div class="container">
+<div class="col-sm-12">
+	<div class="row">
+		<div ng-style="{'margin-right': scrollBarWidth}" >
+		<h4 class="text-info">Logic Gate Test List:</h4>
+		<p class="filename">{{getFilename}}</h6>
+		<table class="table " style="margin-bottom: 0px;" >
+			<thead>
+				<tr>
+					<th width="5%">Id</th>
+					<th width="15%">Name</th>
+					<th width="5%">Type</th>
+					<th width="10%">Item</th>
+					<th width="10%">Operator</th>
+					<th width="28%">Pass Condition</th>
+					<th width="27%">Fail Condition</th>
+				</tr>
+			</thead>
+		</table>
+		</div>
+		<div class="bodycontainer scrollable">
+		<table class="table table-scrollable" >
+			<tbody ng-cloak>
+			<tr ng-repeat="t in testList | orderBy : '-id'" ng-click="highlightRow($index);selectTest(t)" 
+											ng-dblclick="editTest(t)" ng-class="{'selected':$index == selectedRow}"> 
+				<td width="5%">{{ t.id }}</td>
+				<td width="15%">{{ t.name }}</td>
+				<td width="5%">{{ t.type }}</td>
+				<td width="10%">{{ t.item }}</td>
+				<td width="10%">{{ t.operator }}</td>
+				<td width="28%">{{ t.passcond }}</td>
+				<td width="27%" >{{ t.failcond}}</td>	
+			</tr>
+			</tbody>
+			
+		</table>
+		</div>
+		</div>
+	</div>
+</div>
+	
+<div class="container">
+	<div class="row" ng-cloak>
+		<div class="col-sm-12">
+		<p>  </p>
+		<div class="centered">
+		<button class="btn btn-info" ng-click="treeView()">Tree View</button>
+		<button class="btn btn-success" ng-click="addNew()">New Test/Function</button>
+		<button class="btn btn-pink" ng-click="editTest(t)">Edit Selected</button>
+		<button class="btn btn-primary" ng-click="deleteLine(t)">Delete Selected</button>
+		<button class="btn btn-warning" ng-click="moveUp()">Move up</button>
+		<button class="btn btn-warning" ng-click="moveDown()">Move down</button>	
+		<button class="btn btn-danger" ng-click="clearAll()">Clear Screen</button>
+		</div>
+		</div>
+	</div>
+</div>
+
+<div class="clearfix visible-sm-block"></div>
+
+<form name="detailForm" novalidate >
+<div class="container form-group" >
+		<h4 class="text-info">Test/Function Details:</h4>
+
+		<div class="row" ng-cloak>
+			<div class="col-sm-9">
+		   <label for="testname" class="control-label" ng-focus="addedit">Test Name</label>
+		   <input class="form-control" name="testname" type="text" ng-model="testDetail.name" ng-readonly="readdetail">
+		   <div >
+		   <span  style="color:red" ng-show="submitted && detailForm.testname.$invalid">
+				Name is required!</span>
+			</div>
+		   </div>
+		   <div class="col-sm-3">
+		   <label for="testid" class="control-label" ng-disabled="true">Test Id</label>
+		   <input class="form-control" id="testid" type="text" ng-model="testDetail.id" ng-readonly="true">
+		   </div>
+		</div>
+</div>
+		
+<div class="clearfix visible-sm-block"></div>
+
+<br />
+
+<div class="container" ng-cloak >
+	<div class="row form-group">
+		<div class="col-sm-2" >
+			<div class="btn-group" dropdown>
+				<button type="button" class="btn btn-default dropdown-toggle" dropdown-toggle >
+				Test Type <span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu" role="menu">
+				<li ng-repeat="choice in testTypes" ng-model="testDetail.type" >
+				  <a ng-click = "testDetail.type = choice">{{choice}}</a>
+				</li>
+			  </ul>
+			</div>
+		</div>
+		<div class="col-sm-2" >
+			<div class="btn-group" dropdown>
+				<button type="button" class="btn btn-default dropdown-toggle" dropdown-toggle >
+				Function Type <span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu" role="menu">
+				<li ng-repeat="choice in functionTypes">
+				  <a ng-click = "testDetail.type = choice">{{choice}}</a>
+				</li>
+			  </ul>
+			</div>
+		</div>
+		<div class="col-sm-1" >
+		   <input class="form-control" name="testtype" type="text" ng-model="testDetail.type" ng-readonly="true">
+		</div>
+	</div>
+</div>
+
+<div class="clearfix visible-sm-block"></div>
+<div class="container" ng-cloak >	
+     <div class="row form-group">
+		<div class="col-sm-6" ng-show="show('item')">
+		<label for="testitem" class="control-label" ng-show="show('item')">Item</label>
+        <input id="testitem" class="form-control" type="text" ng-model="testDetail.item" ng-readonly="readdetail" >
+		</div>
+		<div class="col-sm-6" ng-show="show('operator')">
+		<label for="testoper" class="control-label">Operator</label>
+        <input id="testoper" class="form-control" type="text" ng-model="testDetail.operator" ng-readonly="readdetail">
+		</div>
+		<div class="col-sm-6" ng-show="show('attrib')">
+		<label for="testattr" class="control-label">Attribute</label>		  
+        <input id="testattr" class="form-control" type="text" ng-model="testDetail.attribute" ng-readonly="readdetail">
+		</div>
+		<div class="col-sm-6" ng-show="show('tochange')">
+		<label for="testtochange" class="control-label">Item To Change</label>
+		<input id="testtochange" class="form-control" type="text" ng-model="testDetail.tochange" ng-readonly="readdetail">
+		</div>
+		<div class="col-sm-6" ng-show="show('target')">
+		<label for="testtarget" class="control-label">Target Item</label>
+        <input id="testtarget" class="form-control" type="text" ng-model="testDetail.target" ng-readonly="readdetail">
+		</div>
+		<div class="col-sm-6" ng-show="show('jumploc')">
+		<label for="testjumploc" class="control-label">Jump To Location</label>
+        <input id="testjumploc" class="form-control" type="text" ng-model="testDetail.jumploc" ng-readonly="readdetail">
+		</div>
+	</div>
+ </div>
+	   
+<div class="clearfix visible-sm-block"></div>
+
+<div class="container" ng-cloak >	
+    <div class="row form-group" >
+	   <div class="col-sm-6">
+			<label for="testpasscond" class="control-label">Pass Condition</label>
+          <input id="testpasscond" class="form-control" type="text" ng-model="testDetail.passcond" ng-readonly="readdetail">
+		</div>
+		<div class="col-sm-6">
+		  <label for="passtext" class="control-label">Pass Text</label>
+          <input name="passtext" class="form-control" type="text" ng-model="testDetail.passtext" ng-readonly="readdetail">
+		  <div >
+		   <span  style="color:red" ng-show="submitted && detailForm.passtext.$invalid">
+				Test type W must have passtext!</span>
+		</div>
+		</div>
+		 <div class="col-sm-6">
+		  <label for="testfailcond" class="control-label">Fail Condition</label>
+          <input id="testfailcond" class="form-control" type="text" ng-model="testDetail.failcond" ng-readonly="readdetail">
+		 </div>
+			<div class="col-sm-6">
+		  <label for="testfailtext" class="control-label">Fail Text</label>
+          <input id="testfailtext" class="form-control" type="text" ng-model="testDetail.failtext" ng-readonly="readdetail">
+		 </div>
+    </div>
+	
+	<div class="row">
+		 <div class="col-sm-2">
+			<button class="btn btn-pink" ng-click="addUpdateTest()" ng-disabled="readdetail">Add/Update Test</button>
+		</div>
+	</div>
+</div>		
+
+<div class="clearfix visible-sm-block"></div>
+
+<div class="container">
+	<div class="row">
+	 <div class="col-sm-12">
+		<p></p>
+		<div class="centered">
+		<button class="btn btn-info" ng-click="loadGate()">Load Gate</button>
+		<button class="btn btn-success" ng-click="saveGate()">Save Gate</button>
+		<button class="btn btn-warning" ng-click="saveGateAs()">Save As</button>
+		<button class="btn btn-danger" ng-click="discardChanges()">Discard Changes</button>
+		</div>
+	  </div>
+	</div>
+	<p></p>
+</div>
+</div>

@@ -1,0 +1,18 @@
+<div>
+	<div class="modal-header bg-default">
+	<button type="button" class="close" ng-click="close()" class="pull-right">&times;</button>
+		<h4 ng-if=" filename !== 'Test Tree'" class="modal-title text-modal-success">Test tree for gate name :  {{filename}} </h4>
+		<h4 ng-if=" filename == 'Test Tree'" class="modal-title text-modal-success">Current test tree (unnamed gate)</h4>
+	</div>
+	<div  class="modal-body modal-body-tree" id="tree">
+	<treeview  class='tree' treedata='treedata'></treeview>
+	</div>
+	<p></p>
+	<p></p>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary" ng-click="close()">ok</button>
+	</div>
+</div>
+
+
+

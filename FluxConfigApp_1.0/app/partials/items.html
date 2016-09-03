@@ -1,0 +1,138 @@
+<div ng-controller="itemsCtrl">
+<div class="page-header">
+    <h3 align="center" class="text-warning">Flux Items Configuration</h3>
+</div>
+<div class="container">
+<div class="col-sm-12">
+	<div class="row">
+		<div ng-style="{'margin-right': scrollBarWidth}" >
+		<h3 class="text-primary">Item List:</h3>
+		<table class="table" style="margin-bottom: 0px;" >
+			<thead>
+				<tr>
+					<th width="5%">ID</th>
+					<th width="10%">Token</th>
+					<th width="15%">Name</th>
+					<th width="25%">Description</th>
+					<th width="10%">Arg</th>
+					<th width="5%">Take?</th>
+					<th width="15%">Location Token</th>
+					<th width="10%">Attributes</th>
+				</tr>
+			</thead>
+		</table>
+		</div>
+		<div class="bodycontainer scrollable">
+		<table class="table table-scrollable" >
+			<tbody>
+			<tr ng-repeat="item in itemList | orderBy : 'ID'" ng-click="highlightRow($index);selectItem(item)" 
+											ng-dblclick="edit(item)"	ng-class="{'selected':$index == selectedRow}"> 
+				<td width="5%">{{ item.ID }}</td>
+				<td width="10%">{{ item.token }}</td>
+				<td width="15%">{{ item.name }}</td>
+				<td width="25%">{{ item.desc }}</td>
+				<td width="10%">{{ item.arg }}</td>
+				<td width="5%">{{ item.cantake }}</td>
+				<td width="15%">{{ item.locationToken }}</td>	
+				<td width="10%" ><ul style="list-style-type: none;padding: 0px;" ><li ng-repeat="attr in item.attributeList">
+								{{attr.name }}&nbsp:&nbsp{{attr.state}}</li></ul></td>	
+			</tr>
+			</tbody>		
+		</table>
+		</div>
+		</div>
+	</div>
+</div>	
+	
+<div class="container">
+	<div class="row">
+		<div class="col-sm-12">
+		<p>  </p>
+		<div class="centered">
+		<button class="btn btn-success" ng-click="addNew()">New Item</button>
+		<button class="btn btn-info" ng-click="edit(item)">Edit Selected</button>
+		<button class="btn btn-primary" ng-click="delete(item)">Delete Selected</button>
+		<button class="btn btn-danger" ng-click="clearAll()">Clear Screen</button>
+		</div>
+		</div>
+	</div>
+</div>
+
+<div class="clearfix visible-sm-block"></div>
+
+<form name="detailForm" novalidate >
+<div name="detailForm"  class="container form-group" >
+	<h3 class="text-primary">Item Details:</h3>
+
+	<div class="row">
+			<div class="col-sm-1">
+			<label for="ID" class="control-label" ng-disabled="true" ng-focus="addedit">ID</label>
+			<input class="form-control" name="ID" type="text" ng-model="itemDetail.ID" ng-readonly="readdetail">
+			</div >
+			<div class="col-sm-3">
+			<label for="token" class="control-label" ng-focus="addedit">Token</label>
+			<input class="form-control" name="token" type="text" ng-model="itemDetail.token" ng-readonly="readdetail">
+			<div >
+			<span  style="color:red" ng-show="submitted && detailForm.token.$invalid">
+					Token is required!</span>
+			</div>
+			</div>
+			<div class="col-sm-4">
+			<label for="name" class="control-label" >Name</label>
+			<input class="form-control" name="name" type="text" ng-model="itemDetail.name" ng-readonly="readdetail">
+			</div>
+			<div class="col-sm-3">
+			<label for="name" class="control-label" >Arg</label>
+			<input class="form-control" name="name" type="text" ng-model="itemDetail.arg" ng-readonly="readdetail">
+			</div>
+		</div>
+		<div class="row">	
+			<div class="col-sm-8" >
+			<label for="desc" class="control-label" >Description</label>
+			<input name="desc" class="form-control" type="text" ng-model="itemDetail.desc" ng-readonly="readdetail" >
+			</div>
+		
+			<div class="col-sm-3" >
+			<label for="locationToken" class="control-label" >Location Token</label>
+			<input name="locationToken" class="form-control" type="text" ng-model="itemDetail.locationToken" ng-readonly="readdetail" >
+			</div>
+			
+			<div class="col-sm-1" >
+			<label for="cantake" class="control-label" >Take?</label>
+			<input name="cantake" class="form-control" type="checkbox" ng-model="itemDetail.cantake" ng-readonly="readdetail" >
+			</div>
+		</div>
+		
+		<div class="clearfix visible-sm-block"></div>
+</div>
+
+<sublistmgr datasource="itemDetail.attributeList" readdetail="readdetail"></sublistmgr>
+<div class="container">
+		<div class="row">
+			<div class="col-sm-2">
+				<button class="btn btn-pink" ng-click="addUpdate()" ng-disabled="readdetail">Add/Update</button>
+			</div>
+		</div>
+</div>
+</form>
+
+
+		
+<div class="clearfix visible-sm-block"></div>
+
+<div class="container">
+	<div class="row">
+	 <div class="col-sm-12">
+		<p></p>
+		<div class="centered">
+		<button class="btn btn-info" ng-click="load()">Load Items</button>
+		<button class="btn btn-success" ng-click="save()">Save Items</button>
+		<button class="btn btn-primary" ng-click="discardChanges()">Discard Changes</button>
+		</div>
+	  </div>
+	</div>
+	<p></p>
+</div>
+
+</div>
+

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html ng-app="fluxConfigApp">
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<!-- Bootstrap -->
+<link href="app/css/bootstrapunited.min.css" rel="stylesheet">
+<link href="app/css/csscustom.css" rel="stylesheet">
+<script src="app/js/angular.js"></script>
+</head>
+
+<body ng-controller="fluxConfigCtrl">
+<div class="page-header">
+    <h3 align="center" class="text-info">Flux Configuration Utility</h3>
+</div>
+<div class="container">
+	<div class="row">
+		<div ng-style="{'margin-right': scrollBarWidth}" >
+		<h3 class="text-primary">Logic Gate Test List:</h3>
+		<p class="tree">{{getFilename}}</h6>
+		<table class="table " style="margin-bottom: 0px;" >
+			<thead>
+				<tr>
+					<th width="5%">Id</th>
+					<th width="15%">Name</th>
+					<th width="5%">Type</th>
+					<th width="10%">Item</th>
+					<th width="10%">Operator</th>
+					<th width="28%">Pass Condition</th>
+					<th width="27%">Fail Condition</th>
+				</tr>
+			</thead>
+		</table>
+		</div>
+		<div class="bodycontainer scrollable">
+		<table class="table table-scrollable" >
+			<tbody>
+			<tr ng-repeat="t in testList | orderBy : '-id'" ng-click="highlightRow($index);selectTest(t)" 
+														ng-class="{'selected':$index == selectedRow}"> 
+				<td width="5%">{{ t.id }}</td>
+				<td width="15%">{{ t.name }}</td>
+				<td width="5%">{{ t.type }}</td>
+				<td width="10%">{{ t.item }}</td>
+				<td width="10%">{{ t.operator }}</td>
+				<td width="28%">{{ t.passcond }}</td>
+				<td width="27%" >{{ t.failcond}}</td>	
+			</tr>
+			</tbody>
+			
+		</table>
+		</div>
+		</div>
+	</div>
+	
+	
+<div class="container">
+	<div class="row">
+		<div class="col-sm-12">
+		<p>  </p>
+		<div class="centered">
+		<button class="btn btn-success" ng-click="addNew()">New Test/Function</button>
+		<button class="btn btn-info" ng-click="editTest(t)">Edit Selected</button>
+		<button class="btn btn-primary" ng-click="deleteLine(t)">Delete Selected</button>
+		<button class="btn btn-warning" ng-click="moveUp()">Move up</button>
+		<button class="btn btn-warning" ng-click="moveDown()">Move down</button>	
+		<button class="btn btn-default" ng-click="clearAll()">Clear Screen</button>
+		</div>
+		</div>
+	</div>
+</div>
+
+<div class="clearfix visible-sm-block"></div>
+
+<form name="detailForm" novalidate >
+<div class="container form-group" >
+		<h3 class="text-primary">Test/Function Details:</h3>
+
+		<div class="row">
+			<div class="col-sm-9">
+		   <label for="testname" class="control-label" ng-focus="addedit">Test Name</label>
+		   <input class="form-control" name="testname" type="text" ng-model="testDetail.name" ng-readonly="readdetail">
+		   <div >
+		   <span  style="color:red" ng-show="submitted && detailForm.testname.$invalid">
+				Name is required!</span>
+			</div>
+		   </div>
+		   <div class="col-sm-3">
+		   <label for="testid" class="control-label" ng-disabled="true">Test Id</label>
+		   <input class="form-control" id="testid" type="text" ng-model="testDetail.id" ng-readonly="true">
+		   </div>
+		</div>
+</div>
+		
+<div class="clearfix visible-sm-block"></div>
+
+<br />
+
+<div class="container" >
+	<div class="row form-group">
+		<div class="col-sm-2" >
+			<div class="btn-group" dropdown>
+				<button type="button" class="btn btn-default dropdown-toggle" dropdown-toggle >
+				Test Type <span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu" role="menu">
+				<li ng-repeat="choice in testTypes" ng-model="testDetail.type" >
+				  <a ng-click = "testDetail.type = choice">{{choice}}</a>
+				</li>
+			  </ul>
+			</div>
+		</div>
+		<div class="col-sm-2" >
+			<div class="btn-group" dropdown>
+				<button type="button" class="btn btn-default dropdown-toggle" dropdown-toggle >
+				Function Type <span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu" role="menu">
+				<li ng-repeat="choice in functionTypes">
+				  <a ng-click = "testDetail.type = choice">{{choice}}</a>
+				</li>
+			  </ul>
+			</div>
+		</div>
+		<div class="col-sm-1" >
+		   <input class="form-control" name="testtype" type="text" ng-model="testDetail.type" ng-readonly="true">
+		</div>
+	</div>
+</div>
+
+<div class="clearfix visible-sm-block"></div>
+<div class="container" >	
+     <div class="row form-group">
+		<div class="col-sm-6" ng-show="show('item')">
+		<label for="testitem" class="control-label" ng-show="show('item')">Item</label>
+        <input id="testitem" class="form-control" type="text" ng-model="testDetail.item" ng-readonly="readdetail" >
+		</div>
+		<div class="col-sm-6" ng-show="show('operator')">
+		<label for="testoper" class="control-label">Operator</label>
+        <input id="testoper" class="form-control" type="text" ng-model="testDetail.operator" ng-readonly="readdetail">
+		</div>
+		<div class="col-sm-6" ng-show="show('attrib')">
+		<label for="testattr" class="control-label">Attribute</label>		  
+        <input id="testattr" class="form-control" type="text" ng-model="testDetail.attribute" ng-readonly="readdetail">
+		</div>
+		<div class="col-sm-6" ng-show="show('tochange')">
+		<label for="testtochange" class="control-label">Item To Change</label>
+		<input id="testtochange" class="form-control" type="text" ng-model="testDetail.tochange" ng-readonly="readdetail">
+		</div>
+		<div class="col-sm-6" ng-show="show('target')">
+		<label for="testtarget" class="control-label">Target Item</label>
+        <input id="testtarget" class="form-control" type="text" ng-model="testDetail.target" ng-readonly="readdetail">
+		</div>
+		<div class="col-sm-6" ng-show="show('jumploc')">
+		<label for="testjumploc" class="control-label">Jump To Location</label>
+        <input id="testjumploc" class="form-control" type="text" ng-model="testDetail.jumploc" ng-readonly="readdetail">
+		</div>
+	</div>
+ </div>
+	   
+<div class="clearfix visible-sm-block"></div>
+
+<div class="container" >	
+    <div class="row form-group" >
+	   <div class="col-sm-6">
+			<label for="testpasscond" class="control-label">Pass Condition</label>
+          <input id="testpasscond" class="form-control" type="text" ng-model="testDetail.passcond" ng-readonly="readdetail">
+		</div>
+		<div class="col-sm-6">
+		  <label for="passtext" class="control-label">Pass Text</label>
+          <input name="passtext" class="form-control" type="text" ng-model="testDetail.passtext" ng-readonly="readdetail">
+		  <div >
+		   <span  style="color:red" ng-show="submitted && detailForm.passtext.$invalid">
+				Test type W must have passtext!</span>
+		</div>
+		</div>
+		 <div class="col-sm-6">
+		  <label for="testfailcond" class="control-label">Fail Condition</label>
+          <input id="testfailcond" class="form-control" type="text" ng-model="testDetail.failcond" ng-readonly="readdetail">
+		 </div>
+			<div class="col-sm-6">
+		  <label for="testfailtext" class="control-label">Fail Text</label>
+          <input id="testfailtext" class="form-control" type="text" ng-model="testDetail.failtext" ng-readonly="readdetail">
+		 </div>
+    </div>
+	
+	<div class="row">
+		 <div class="col-sm-2">
+			<button class="btn btn-primary" ng-click="addUpdateTest()" ng-disabled="readdetail">Add/Update Test</button>
+		</div>
+	</div>
+</div>		
+
+<div class="clearfix visible-sm-block"></div>
+
+<div class="container">
+	<div class="row">
+	 <div class="col-sm-12">
+		<p></p>
+		<div class="centered">
+		<button class="btn btn-info" ng-click="loadGate()">Load Gate</button>
+		<button class="btn btn-success" ng-click="saveGate()">Save Gate</button>
+		<button class="btn btn-warning" ng-click="saveGateAs()">Save As</button>
+		<button class="btn btn-default" ng-click="discardChanges()">Discard Changes</button>
+		</div>
+	  </div>
+	</div>
+	<p></p>
+</div>
+
+
+<script src="app/fluxconfigapp.js"></script>
+<script src="app/fluxconfigctrl.js"></script>
+<script src="app/dirs/datafactory.js"></script>
+<script src="app/dirs/modalfactory.js"></script>
+<script src="app/dirs/modalctrl.js"></script>
+ <!-- Angular UI Boostrap directives - modal, alert -->
+<script src="app/js/ui-bootstrap-custom-tpls-0.12.1.min.js"></script>
+ <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+ <!-- Include all compiled plugins (below), or include individual files as needed -->
+ <script src="app/js/bootstrap.min.js"></script>
+</body>
+</html>

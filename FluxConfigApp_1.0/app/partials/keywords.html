@@ -1,0 +1,120 @@
+<div ng-controller="keywordsCtrl">
+<div class="page-header">
+    <h3 align="center" class="text-warning">Flux Location Configuration</h3>
+</div>
+<div class="container">
+<div class="col-sm-12">
+	<div class="row">
+		<div ng-style="{'margin-right': scrollBarWidth}" >
+		<h3 class="text-primary">Keyword List:</h3>
+		<table class="table " style="margin-bottom: 0px;" >
+			<thead>
+				<tr>
+					<th width="5%">ID</th>
+					<th width="20%">Token</th>
+					<th width="20%">Alias</th>
+					<th width="10%">Type</th>
+					<th width="30%">Override ID</th>
+					
+				</tr>
+			</thead>
+		</table>
+		</div>
+		<div class="bodycontainer scrollable">
+		<table class="table table-scrollable" >
+			<tbody>
+			<tr ng-repeat="keyword in keywordList | orderBy : 'ID'" ng-click="highlightRow($index);selectItem(keyword)" 
+											ng-dblclick="edit(item)"	ng-class="{'selected':$index == selectedRow}"> 
+				<td width="5%">{{ keyword.ID }}</td>
+				<td width="20%">{{ keyword.token }}</td>
+				<td width="20%">{{ keyword.alias }}</td>
+				<td width="10%">{{ keyword.type }}</td>
+				<td width="30%">{{ keyword.overrideID }}</td>
+			</tr>
+			</tbody>		
+		</table>
+		</div>
+		</div>
+	</div>
+</div>	
+	
+<div class="container">
+	<div class="row">
+		<div class="col-sm-12">
+		<p>  </p>
+		<div class="centered">
+		<button class="btn btn-success" ng-click="addNew()">New Item</button>
+		<button class="btn btn-info" ng-click="edit(keyword)">Edit Selected</button>
+		<button class="btn btn-primary" ng-click="delete(keyword)">Delete Selected</button>
+		<button class="btn btn-danger" ng-click="clearAll()">Clear Screen</button>
+		</div>
+		</div>
+	</div>
+</div>
+
+<div class="clearfix visible-sm-block"></div>
+
+<form name="detailForm" novalidate >
+<div class="container form-group" >
+	<h3 class="text-primary">Keyword Details:</h3>
+
+	<div class="row">
+			<div class="col-sm-1">
+			<label for="ID" class="control-label" ng-disabled="true" ng-focus="addedit">ID</label>
+			<input class="form-control" name="ID" type="text" ng-model="keywordDetail.ID" ng-readonly="readdetail">
+			</div >
+			<div class="col-sm-5">
+			<label for="token" class="control-label" ng-focus="addedit">Token</label>
+			<input class="form-control" name="token" type="text" ng-model="keywordDetail.token" ng-readonly="readdetail">
+			<div >
+			<span  style="color:red" ng-show="submitted && detailForm.token.$invalid">
+					Token is required!</span>
+			</div>
+			</div>
+			<div class="col-sm-5">
+			<label for="name" class="control-label" >Alias</label>
+			<input class="form-control" name="name" type="text" ng-model="keywordDetail.alias" ng-readonly="readdetail">
+			</div>
+		</div>
+		<div class="row">	
+			<div class="col-sm-1" >
+			<label for="desc" class="control-label" >Type</label>
+			<input name="desc" class="form-control" type="text" ng-model="keywordDetail.type" ng-readonly="readdetail" >
+			</div>
+			<div class="col-sm-2" >
+			<label for="desc" class="control-label" >Override ID</label>
+			<input name="desc" class="form-control" type="text" ng-model="keywordDetail.overrideID" ng-readonly="readdetail" >
+			</div>
+		</div>
+		
+	<div class="clearfix visible-sm-block"></div>
+</div>
+
+<div class="container">
+		<div class="row">
+			<div class="col-sm-2">
+				<button class="btn btn-pink" ng-click="addUpdate()" ng-disabled="readdetail">Add/Update</button>
+			</div>
+		</div>
+</div>
+</form>
+
+		
+<div class="clearfix visible-sm-block"></div>
+
+<div class="container">
+	<div class="row">
+	 <div class="col-sm-12">
+		<p></p>
+		<div class="centered">
+		<button class="btn btn-info" ng-click="load()">Load Keywords</button>
+		<button class="btn btn-success" ng-click="save()">Save Keywords</button>
+		<button class="btn btn-primary" ng-click="discardChanges()">Discard Changes</button>
+		</div>
+	  </div>
+	</div>
+	<p></p>
+</div>
+
+</div>
+

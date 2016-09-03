@@ -1,0 +1,115 @@
+ .btn-blue {
+  color: #ffffff;
+  background-color: #3a87ad;
+  border-color: #3a87ad;
+}
+.btn-blue:hover,
+.btn-blue:focus,
+.btn-blue.focus,
+.btn-blue:active,
+.btn-blue.active,
+.open > .dropdown-toggle.btn-blue {
+  color: #ffffff;
+  background-color:  #2d6987;
+  border-color: #235168;
+}
+.btn-blue:active,
+.btn-blue.active,
+.open > .dropdown-toggle.btn-blue {
+  background-image: none;
+}
+.btn-blue.disabled,
+.btn-blue[disabled],
+fieldset[disabled] .btn-blue,
+.btn-blue.disabled:hover,
+.btn-blue[disabled]:hover,
+fieldset[disabled] .btn-blue:hover,
+.btn-blue.disabled:focus,
+.btn-blue[disabled]:focus,
+fieldset[disabled] .btn-blue:focus,
+.btn-blue.disabled.focus,
+.btn-blue[disabled].focus,
+fieldset[disabled] .btn-blue.focus,
+.btn-blue.disabled:active,
+.btn-blue[disabled]:active,
+fieldset[disabled] .btn-blue:active,
+.btn-blue.disabled.active,
+.btn-blue[disabled].active,
+fieldset[disabled] .btn-blue.active {
+  background-color: #3a87ad;
+  border-color: #3a87ad;
+}
+.btn-blue .badge {
+  color: #3a87ad;
+  background-color: #ffffff;
+}
+.selected {
+    background-color: #369;
+    color: white;
+    font-weight:bold;
+}
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+.bodycontainer { max-height: 200px; width: 100%; margin: 0; overflow-y: auto; margin-bottom: 15px;}
+.table-scrollable { margin: 0; padding: 0;
+}
+.centered  {
+    text-align:center;
+}
+.text-modal-success { color: #ffffff; }
+.dialog-header-error { background-color: #d2322d; }
+.dialog-header-notify { background-color: #eeeeee; }
+.dialog-header-tree { background-color: #369; }
+.dialog-header-success { background-color: #38b44a; }
+.dialog-header-error span, .dialog-header-error h4,
+.dialog-header-confirm span, .dialog-header-confirm h4 { color: #ffffff; }
+	
+.modal-body-tree {
+  position: relative;
+  margin-left: 0px;
+  padding: 20, 20, 30, 40px;
+}
+a:hover,
+a:focus {
+  	background-color: #369;
+    	color:white;
+}
+
+
+p.tree {
+	font-size: 150%;
+	color: #369;
+	font-weight: bold;
+	margin-bottom: 0; 
+	padding: 0;
+	}
+	
+ul.tree, ul.tree ul {
+     list-style-type: none;
+	 background: url(vline11.png) repeat-y;
+	 margin-left: 0;
+     margin-bottom: 0;
+	 margin-top: 0;
+     padding: 0 0 0 0px;
+   }
+   
+   ul.tree ul {
+     margin-left: 20px;
+   }
+
+   ul.tree li {
+     margin-left: 0px;
+     padding: 0 12px;
+     line-height: 20px;
+     background: url(node.png) no-repeat;
+     color: #369;
+     font-weight: bold;
+   }
+   
+	ul.tree li:first-child {
+	 margin-top: 0;
+   }
+   
+   ul.tree li:last-child {
+     background: #fff url(lastnode.png) no-repeat;
+   }
+
